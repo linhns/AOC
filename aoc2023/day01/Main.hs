@@ -1,19 +1,13 @@
-module AOC.AOC2023.Day1 where
+module Main where
 
 import Data.Char
-import qualified System.Environment as Env
 import Data.List
+import AOC
 
-type Input = [String]
-type Output = Int
-
-parseInput :: String -> Input
-parseInput = lines
-
-calibrate :: Input -> Output
+calibrate :: [String] -> Int
 calibrate = sum . map (read . (\x -> [head x, last x]) . filter isDigit)
 
-digitize :: Input -> Input
+digitize :: [String] -> [String]
 digitize = map go
   where
     go [] = []
@@ -29,14 +23,10 @@ digitize = map go
       | "nine" `isPrefixOf` line = '9' : go xs
       | otherwise = x : go xs
 
-compute :: Input -> String -> IO ()
-compute input part = case part of
-  "1" -> print $ calibrate input
-  "2" -> print $ calibrate $ digitize input
-  _ -> putStrLn "Invalid part"
-
-run :: IO ()
-run = do
-  args <- Env.getArgs
-  input <- parseInput <$> readFile (head args)
-  mapM_ (compute input) (tail args)
+main :: IO ()
+main = do
+  dataFileName <- getDataFileName
+  putStrLn dataFileName
+  cals <- lines <$> readFile dataFileName
+  print $ calibrate cals
+  print $ calibrate $ digitize cals
