@@ -1,8 +1,8 @@
 module Main where
 
+import AOC
 import Data.Char
 import Data.List
-import AOC
 
 calibrate :: [String] -> Int
 calibrate = sum . map (read . (\x -> [head x, last x]) . filter isDigit)
@@ -11,7 +11,7 @@ digitize :: [String] -> [String]
 digitize = map go
   where
     go [] = []
-    go line@(x:xs)
+    go line@(x : xs)
       | "one" `isPrefixOf` line = '1' : go xs
       | "two" `isPrefixOf` line = '2' : go xs
       | "three" `isPrefixOf` line = '3' : go xs
@@ -26,7 +26,6 @@ digitize = map go
 main :: IO ()
 main = do
   dataFileName <- getDataFileName
-  putStrLn dataFileName
   cals <- lines <$> readFile dataFileName
   print $ calibrate cals
   print $ calibrate $ digitize cals
