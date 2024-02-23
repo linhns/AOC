@@ -55,11 +55,8 @@ executable AOC
 
   -- LANGUAGE extensions used by modules in this package.
   -- other-extensions:
-  build-depends:
-    , AOC
-    , base  ^>=4.17.2.0
-
-  hs-source-dirs:   app
+  build-depends:    base ^>=4.17.2.0
+  hs-source-dirs:   app src
   default-language: Haskell2010
 
 executable day01-2023
@@ -72,6 +69,26 @@ executable day07-2023
   build-depends:
     , attoparsec
     , text
+
+executable day02-2023
+  import:        common-extensions, build-directives
+  main-is:       aoc2023/day02.hs
+  build-depends: regex-tdfa
+
+executable day11-2023
+  import:        common-extensions, build-directives
+  main-is:       aoc2023/day11.hs
+  build-depends:
+    , containers
+    , text
+
+executable day15-2023
+  import:        common-extensions, build-directives
+  main-is:       aoc2023/day15.hs
+  build-depends:
+    , containers
+    , text
+    , attoparsec
 
 test-suite AOC-test
   default-language: Haskell2010

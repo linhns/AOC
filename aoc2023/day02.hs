@@ -1,6 +1,8 @@
-module AOC.AOC2023.Day2 where
+{-# LANGUAGE NoOverloadedStrings #-}
 
-import qualified System.Environment as Env
+module Main where
+
+import AOC
 import Text.Regex.TDFA
 
 data Cube = Red Int | Green Int | Blue Int deriving (Show, Eq)
@@ -19,7 +21,7 @@ makeCube [_, n, "green"] = Green (read n)
 makeCube [_, n, "blue"] = Blue (read n)
 
 makeGames :: [[Cube]] -> [Game]
-makeGames = zip [1..]
+makeGames = zip [1 ..]
 
 validateGame :: Game -> Bool
 validateGame = all validateColor . snd
@@ -35,7 +37,7 @@ minimalCubes :: [Cube] -> (Int, Int, Int)
 minimalCubes cubes = (r cubes, g cubes, b cubes)
   where
     r = maximum . map (\(Red n) -> n) . filter isRed
-    g = maximum . map (\(Green n) -> n) .  filter isGreen
+    g = maximum . map (\(Green n) -> n) . filter isGreen
     b = maximum . map (\(Blue n) -> n) . filter isBlue
     isRed (Red _) = True
     isRed _ = False
@@ -50,14 +52,9 @@ power (x, y, z) = x * y * z
 sumPowers :: [Game] -> Int
 sumPowers = sum . map (power . minimalCubes . snd)
 
-compute :: [[Cube]] -> String -> IO ()
-compute input part = case part of
-  "1" -> print $ sumValidGameIds $ makeGames input
-  "2" -> print $ sumPowers $ makeGames input
-  _ -> putStrLn "Invalid part"
-
-run :: IO ()
-run = do
-  args <- Env.getArgs
-  input <- parseInput <$> readFile (head args)
-  mapM_ (compute input) (tail args)
+main :: IO ()
+main = do
+  dataFileName <- getDataFileName
+  input <- parseInput <$> readFile dataFileName
+  print $ sumValidGameIds $ makeGames input
+  print $ sumPowers $ makeGames input
