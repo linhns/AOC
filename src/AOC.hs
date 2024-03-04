@@ -11,9 +11,8 @@ getDataFileName :: IO String
 getDataFileName = do
   args <- getArgs
   progName <- getProgName
-  let baseDataName =
+  let dataFileName =
         if null args
-          then fixPath progName
+          then "./data/" <> fixPath progName <> ".txt"
           else head args
-  let dataFileName = "./data/" ++ baseDataName ++ ".txt"
   return dataFileName
